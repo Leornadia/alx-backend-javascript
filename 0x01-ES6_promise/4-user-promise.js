@@ -1,9 +1,13 @@
-function signUpUser(firstName, lastName) {
-    return Promise.resolve({
-        firstName: firstName,
-        lastName: lastName
+import { uploadPhoto, createUser } from './utils.js';
+
+function handleProfileSignup() {
+  return Promise.all([uploadPhoto(), createUser()])
+    .then(([photoResponse, userResponse]) => {
+      console.log(`${photoResponse.body} ${userResponse.firstName} ${userResponse.lastName}`);
+    })
+    .catch(() => {
+      console.log('Signup system offline');
     });
 }
 
-export default signUpUser;
-
+export default handleProfileSignup;
