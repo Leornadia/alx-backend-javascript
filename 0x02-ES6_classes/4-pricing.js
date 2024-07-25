@@ -1,41 +1,46 @@
+
 import Currency from './3-currency.js';
 
-// Define the Pricing class
 export default class Pricing {
-    // Constructor with attributes
-    constructor(amount, currency) {
-        // Store attributes in private properties
-        this._amount = amount;
-        this._currency = currency;  // This should be an instance of Currency
-    }
+  constructor(amount, currency) {
+    this._amount = amount;
+    this._currency = currency;
+  }
 
-    // Getter for amount
-    get amount() {
-        return this._amount;
-    }
+  // Getter and setter for amount
+  get amount() {
+    return this._amount;
+  }
 
-    // Setter for amount
-    set amount(value) {
-        this._amount = value;
+  set amount(value) {
+    if (typeof value !== 'number') {
+      throw new TypeError('Amount must be a number');
     }
+    this._amount = value;
+  }
 
-    // Getter for currency
-    get currency() {
-        return this._currency;
-    }
+  // Getter and setter for currency
+  get currency() {
+    return this._currency;
+  }
 
-    // Setter for currency
-    set currency(value) {
-        this._currency = value;  // This should be an instance of Currency
+  set currency(value) {
+    if (!(value instanceof Currency)) {
+      throw new TypeError('Currency must be an instance of Currency class');
     }
+    this._currency = value;
+  }
 
-    // Method to display full price
-    displayFullPrice() {
-        return `${this._amount} ${this._currency.name} (${this._currency.code})`;
-    }
+  // Method to display full price
+  displayFullPrice() {
+    return `${this._amount} ${this._currency.name} (${this._currency.code})`;
+  }
 
-    // Static method to convert price
-    static convertPrice(amount, conversionRate) {
-        return amount * conversionRate; // Return the converted amount
+  // Static method to convert price
+  static convertPrice(amount, conversionRate) {
+    if (typeof amount !== 'number' || typeof conversionRate !== 'number') {
+      throw new TypeError('Both amount and conversionRate must be numbers');
     }
+    return amount * conversionRate;
+  }
 }

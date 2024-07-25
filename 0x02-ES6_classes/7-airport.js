@@ -1,13 +1,16 @@
 export default class Airport {
-    // Constructor with attributes
-    constructor(name, code) {
-        // Store name and code in private properties
-        this._name = name;
-        this._code = code;
-    }
+  constructor(name, code) {
+    this._name = name;
+    this._code = code;
+  }
 
-    // Override the toString method to return the airport code
-    toString() {
-        return `[object ${this._code}]`;
-    }
+  // Custom string representation
+  toString() {
+    return `[object ${this._code}]`;
+  }
+
+  // Symbol.toStringTag to customize the default string description
+  get [Symbol.toStringTag]() {
+    return this._code;
+  }
 }
