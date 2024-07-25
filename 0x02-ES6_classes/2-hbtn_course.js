@@ -1,49 +1,53 @@
 export default class HolbertonCourse {
-  constructor(name, length, students) {
-    if (typeof name !== 'string') {
-      throw new TypeError('Name must be a string');
+    constructor(name, length, students) {
+        this._name = this.validateName(name);
+        this._length = this.validateLength(length);
+        this._students = this.validateStudents(students);
     }
-    if (typeof length !== 'number') {
-      throw new TypeError('Length must be a number');
+
+    validateName(name) {
+        if (typeof name !== 'string') {
+            throw new TypeError('Name must be a string');
+        }
+        return name;
     }
-    if (!Array.isArray(students) || !students.every(student => typeof student === 'string')) {
-      throw new TypeError('Students must be an array of strings');
+
+    validateLength(length) {
+        if (typeof length !== 'number') {
+            throw new TypeError('Length must be a number');
+        }
+        return length;
     }
-    this._name = name;
-    this._length = length;
-    this._students = students;
-  }
 
-  get name() {
-    return this._name;
-  }
-
-  set name(newName) {
-    if (typeof newName !== 'string') {
-      throw new TypeError('Name must be a string');
+    validateStudents(students) {
+        if (!Array.isArray(students) || !students.every(student => typeof student === 'string')) {
+            throw new TypeError('Students must be an array of strings');
+        }
+        return students;
     }
-    this._name = newName;
-  }
 
-  get length() {
-    return this._length;
-  }
-
-  set length(newLength) {
-    if (typeof newLength !== 'number') {
-      throw new TypeError('Length must be a number');
+    get name() {
+        return this._name;
     }
-    this._length = newLength;
-  }
 
-  get students() {
-    return this._students;
-  }
-
-  set students(newStudents) {
-    if (!Array.isArray(newStudents) || !newStudents.every(student => typeof student === 'string')) {
-      throw new TypeError('Students must be an array of strings');
+    set name(value) {
+        this._name = this.validateName(value);
     }
-    this._students = newStudents;
-  }
+
+    get length() {
+        return this._length;
+    }
+
+    set length(value) {
+        this._length = this.validateLength(value);
+    }
+
+    get students() {
+        return this._students;
+    }
+
+    set students(value) {
+        this._students = this.validateStudents(value);
+    }
 }
+
