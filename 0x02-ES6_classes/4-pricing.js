@@ -1,13 +1,11 @@
-
 import Currency from './3-currency.js';
 
 export default class Pricing {
   constructor(amount, currency) {
-    this._amount = amount;
-    this._currency = currency;
+    this.amount = amount;
+    this.currency = currency;
   }
 
-  // Getter and setter for amount
   get amount() {
     return this._amount;
   }
@@ -19,7 +17,6 @@ export default class Pricing {
     this._amount = value;
   }
 
-  // Getter and setter for currency
   get currency() {
     return this._currency;
   }
@@ -31,15 +28,13 @@ export default class Pricing {
     this._currency = value;
   }
 
-  // Method to display full price
   displayFullPrice() {
-    return `${this._amount} ${this._currency.name} (${this._currency.code})`;
+    return `${this.amount} ${this.currency.name} (${this.currency.code})`;
   }
 
-  // Static method to convert price
   static convertPrice(amount, conversionRate) {
     if (typeof amount !== 'number' || typeof conversionRate !== 'number') {
-      throw new TypeError('Both amount and conversionRate must be numbers');
+      throw new TypeError('Amount and conversionRate must be numbers');
     }
     return amount * conversionRate;
   }
