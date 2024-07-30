@@ -1,14 +1,14 @@
 
-
 const groceriesList = () => {
-    const groceriesMap = new Map();
-    groceriesMap.set('Apples', 10);
-    groceriesMap.set('Tomatoes', 10);
-    groceriesMap.set('Pasta', 1);
-    groceriesMap.set('Rice', 1);
-    groceriesMap.set('Banana', 5);
+  const groceries = new Map();
+  
+  groceries.set('Apples', 10);
+  groceries.set('Tomatoes', 10);
+  groceries.set('Pasta', 1);
+  groceries.set('Rice', 1);
+  groceries.set('Banana', 5);
 
-    return groceriesMap;
+  return groceries;
 };
 
 export default groceriesList;
