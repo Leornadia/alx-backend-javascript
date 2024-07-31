@@ -59,3 +59,43 @@ console.log(createEmployee(1000));
 console.log(createEmployee('$500'));
 
 // ... (previous code remains the same)
+
+// Type predicate function isDirector
+function isDirector(employee: Director | Teacher): employee is Director {
+  return (employee as Director).workDirectorTasks !== undefined;
+}
+
+// executeWork function
+function executeWork(employee: Director | Teacher): string {
+  if (isDirector(employee)) {
+    return employee.workDirectorTasks();
+  } else {
+    return employee.workTeacherTasks();
+  }
+}
+
+// Test the executeWork function
+console.log(executeWork(createEmployee(200)));
+console.log(executeWork(createEmployee(1000)));
+
+// String literal type Subjects
+type Subjects = 'Math' | 'History';
+
+// teachClass function
+function teachClass(todayClass: Subjects): string {
+  if (todayClass === 'Math') {
+    return 'Teaching Math';
+  } else if (todayClass === 'History') {
+    return 'Teaching History';
+  } else {
+    // This else is technically unreachable due to TypeScript's type checking,
+    // but it's good practice to handle all possible cases
+    throw new Error('Invalid subject');
+  }
+}
+
+// Test the teachClass function
+console.log(teachClass('Math'));
+console.log(teachClass('History'));
+
+// ... (previous code remains the same)
