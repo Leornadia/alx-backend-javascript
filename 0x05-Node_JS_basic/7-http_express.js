@@ -1,39 +1,39 @@
-const fs = require('fs');
+const express = require('express');
+const fs = require('fs').promises;
+const { exec } = require('child_process');
 
-const countStudents = (path) => {
-  try {
-    // Read the file synchronously and split into lines, removing any empty lines
-    const data = fs.readFileSync(path, 'utf-8').split('\n').filter(Boolean); 
+const app = express();
+const PORT = 1245;
+const db = process.argv[2];
 
-    // Get the number of students (excluding the header)
-    const numStudents = data.length - 1;
-    console.log(`Number of students: ${numStudents}`);
+// ... (keep the countStudents function and routes as they were) ...
 
-    // Create an object to store student counts by field
-    const fieldCounts = {};
-
-    // Iterate through student data (starting from the second line)
-    for (let i = 1; i < data.length; i += 1) {
-      const student = data[i].split(',');
-      const field = student[student.length - 1]; 
-
-      // If the field already exists, update the count and list
-      if (fieldCounts[field]) {
-        fieldCounts[field].count += 1;
-        fieldCounts[field].names.push(student[0]);
-      } else { // Otherwise, create a new entry for the field
-        fieldCounts[field] = { count: 1, names: [student[0]] };
-      }
+function killExistingProcess(port, callback) {
+  exec(`lsof -ti tcp:${port} | xargs kill`, (error) => {
+    if (error) {
+      console.error(`Failed to kill process on port ${port}: ${error}`);
+    } else {
+      console.log(`Killed existing process on port ${port}`);
     }
+    callback();
+  });
+}
 
-    // Log the student counts for each field
-    Object.keys(fieldCounts).forEach((field) => {
-      console.log(`Number of students in ${field}: ${fieldCounts[field].count}. List: ${fieldCounts[field].names.join(', ')}`);
+function startServer(port) {
+  killExistingProcess(port, () => {
+    app.listen(port, () => {
+      console.log(`Server running at http://localhost:${port}/`);
+    }).on('error', (err) => {
+      if (err.code === 'EADDRINUSE') {
+        console.log(`Port ${port} is still busy, trying ${port + 1}...`);
+        startServer(port + 1);
+      } else {
+        console.error(err);
+      }
     });
+  });
+}
 
-  } catch (error) {
-    throw new Error('Cannot load the database');
-  }
-};
+startServer(PORT);
 
-module.exports = countStudents;
+module.exports = app;
