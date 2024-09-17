@@ -1,34 +1,35 @@
 const express = require('express');
-const fs = require('fs');
+const countStudents = require('./3-read_file_async');
 
+// Initialize Express app
 const app = express();
 
+// Handle the root route "/"
 app.get('/', (req, res) => {
-  res.send('Hello Holberton School!');
+    res.send('Hello Holberton School!');
 });
 
+// Handle the "/students" route
 app.get('/students', (req, res) => {
-  const database = process.argv[2]; // Get the database filename from command line argument
+    const databasePath = process.argv[2];  // Get the database file path from command-line arguments
 
-  fs.readFile(database, 'utf8', (err, data) => {
-    if (err) {
-      res.status(500).send('Error reading database');
-      return;
-    }
+    res.write('This is the list of our students\n');
 
-    const students = data.split('\n').filter(line => line.trim() !== '');
-    const csStudents = students.filter(student => student.startsWith('CS:'));
-    const sweStudents = students.filter(student => student.startsWith('SWE:'));
-
-    res.send(`This is the list of our students\n
-Number of students: ${students.length}\n
-Number of students in CS: ${csStudents.length}. List: ${csStudents.map(student => student.substring(3)).join(', ')}\n
-Number of students in SWE: ${sweStudents.length}. List: ${sweStudents.map(student => student.substring(4)).join(', ')}\n`);
-  });
+    countStudents(databasePath)
+        .then(() => {
+            res.end();
+        })
+        .catch((err) => {
+            res.write(err.message + '\n');
+            res.end();
+        });
 });
 
+// Start the server on port 1245
+app.listen(1245, () => {
+    console.log('Server is listening on port 1245');
+});
+
+// Export the app for testing or further use
 module.exports = app;
 
-app.listen(1245, () => {
-  console.log('Server running at http://localhost:1245/');
-});
