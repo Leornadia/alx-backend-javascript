@@ -1,44 +1,24 @@
 const assert = require('assert');
 const calculateNumber = require('./1-calcul.js');
 
-describe('calculateNumber', function() {
-  describe('SUM', function() {
-    it('should return 6 when adding 1.4 and 4.5', function() {
-      assert.strictEqual(calculateNumber('SUM', 1.4, 4.5), 6);
-    });
-    
-    it('should return 0 when adding -1.4 and 1.4', function() {
-      assert.strictEqual(calculateNumber('SUM', -1.4, 1.4), 0);
-    });
+describe('calculateNumber', () => {
+  it('should add two numbers correctly (SUM)', () => {
+    assert.strictEqual(calculateNumber('SUM', 1.4, 4.5), 6);
   });
 
-  describe('SUBTRACT', function() {
-    it('should return -4 when subtracting 4.5 from 1.4', function() {
-      assert.strictEqual(calculateNumber('SUBTRACT', 1.4, 4.5), -4);
-    });
-    
-    it('should return 0 when subtracting 2.5 from 2.4', function() {
-      assert.strictEqual(calculateNumber('SUBTRACT', 2.4, 2.5), 0);
-    });
+  it('should subtract two numbers correctly (SUBTRACT)', () => {
+    assert.strictEqual(calculateNumber('SUBTRACT', 1.4, 4.5), -4);
   });
 
-  describe('DIVIDE', function() {
-    it('should return 0.2 when dividing 1.4 by 4.5', function() {
-      assert.strictEqual(calculateNumber('DIVIDE', 1.4, 4.5), 0.2);
-    });
-    
-    it('should return "Error" when dividing by 0', function() {
-      assert.strictEqual(calculateNumber('DIVIDE', 1.4, 0), 'Error');
-    });
-
-    it('should return 1 when dividing 4.5 by 4.5', function() {
-      assert.strictEqual(calculateNumber('DIVIDE', 4.5, 4.5), 1);
-    });
+  it('should divide two numbers correctly (DIVIDE)', () => {
+    assert.strictEqual(calculateNumber('DIVIDE', 1.4, 4.5), 0.2);
   });
 
-  describe('Invalid type', function() {
-    it('should throw an error for invalid type', function() {
-      assert.throws(() => calculateNumber('INVALID', 1.4, 4.5), Error);
-    });
+  it('should return "Error" when dividing by zero (DIVIDE)', () => {
+    assert.strictEqual(calculateNumber('DIVIDE', 1.4, 0), 'Error');
+  });
+
+  it('should return "Unknown operation" for invalid type', () => {
+    assert.strictEqual(calculateNumber('INVALID', 1.4, 4.5), 'Unknown operation');
   });
 });

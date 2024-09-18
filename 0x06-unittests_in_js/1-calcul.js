@@ -1,17 +1,19 @@
 function calculateNumber(type, a, b) {
-  const roundedA = Math.round(a);
-  const roundedB = Math.round(b);
+  a = Math.round(a);
+  b = Math.round(b);
 
   switch (type) {
     case 'SUM':
-      return roundedA + roundedB;
+      return a + b;
     case 'SUBTRACT':
-      return roundedA - roundedB;
+      return a - b;
     case 'DIVIDE':
-      if (roundedB === 0) return 'Error';
-      return roundedA / roundedB;
+      if (b === 0) {
+        return 'Error';
+      }
+      return a / b;
     default:
-      throw new Error('Invalid type');
+      return 'Unknown operation';
   }
 }
 
