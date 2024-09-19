@@ -1,33 +1,22 @@
-const assert = require('assert');
-const calculateNumber = require('./0-calcul.js');
+import { strict as assert } from 'assert';
+import { calculateNumber } from './0-calcul.js';
 
-describe('calculateNumber', function() {
-  it('should return 4 when adding 1 and 3', function() {
-    assert.strictEqual(calculateNumber(1, 3), 4);
+describe('calculateNumber', () => {
+  it('should return the sum of rounded numbers', () => {
+    assert.equal(calculateNumber(1, 3), 4);
+    assert.equal(calculateNumber(1, 3.7), 5);
+    assert.equal(calculateNumber(1.2, 3.7), 5);
+    assert.equal(calculateNumber(1.5, 3.7), 6);
   });
 
-  it('should return 5 when adding 1 and 3.7', function() {
-    assert.strictEqual(calculateNumber(1, 3.7), 5);
+  it('should handle negative numbers', () => {
+    assert.equal(calculateNumber(-1, -3), -4);
+    assert.equal(calculateNumber(-1.2, -3.7), -5);
   });
 
-  it('should return 5 when adding 1.2 and 3.7', function() {
-    assert.strictEqual(calculateNumber(1.2, 3.7), 5);
-  });
-
-  it('should return 6 when adding 1.5 and 3.7', function() {
-    assert.strictEqual(calculateNumber(1.5, 3.7), 6);
-  });
-
-  // Additional edge cases
-  it('should return 0 when adding 0.1 and 0.3', function() {
-    assert.strictEqual(calculateNumber(0.1, 0.3), 0);
-  });
-
-  it('should return 0 when adding -0.7 and 0.7', function() {
-    assert.strictEqual(calculateNumber(-0.7, 0.7), 0);
-  });
-
-  it('should return -2 when adding -1.4 and -0.6', function() {
-    assert.strictEqual(calculateNumber(-1.4, -0.6), -2);
+  it('should round to nearest integer', () => {
+    assert.equal(calculateNumber(1.4, 3.4), 4);
+    assert.equal(calculateNumber(1.6, 3.6), 6);
   });
 });
+

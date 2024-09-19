@@ -1,13 +1,19 @@
 {
-  "name": "0x06-unittests_in_js",
+  "name": "unittests-js-project",
   "version": "1.0.0",
-  "description": "Unittests in JS",
-  "main": "0-calcul.js",
+  "description": "Unit tests project using Mocha and Chai",
+  "main": "index.js",
+  "type": "module",
   "scripts": {
-    "test": "npx mocha 0-calcul.test.js"
+    "test": "mocha --experimental-modules --es-module-specifier-resolution=node **/*.test.js"
   },
+  "author": "Your Name",
+  "license": "ISC",
   "devDependencies": {
-    "chai": "^5.1.1",
-    "mocha": "^9.1.3"
+    "chai": "^4.3.7",
+    "mocha": "^10.2.0",
+    "sinon": "^15.0.0",
+    "@sinonjs/referee-sinon": "^12.0.0"
   }
 }
+
