@@ -1,22 +1,20 @@
-import { strict as assert } from 'assert';
-import { calculateNumber } from './0-calcul.js';
+const calculateNumber = require('./0-calcul'); 
+const assert = require('assert');
 
 describe('calculateNumber', () => {
-  it('should return the sum of rounded numbers', () => {
-    assert.equal(calculateNumber(1, 3), 4);
-    assert.equal(calculateNumber(1, 3.7), 5);
-    assert.equal(calculateNumber(1.2, 3.7), 5);
-    assert.equal(calculateNumber(1.5, 3.7), 6);
+  it('should correctly add two numbers', () => {
+    assert.equal(calculateNumber('add', 1.2, 2.4), 3);
   });
 
-  it('should handle negative numbers', () => {
-    assert.equal(calculateNumber(-1, -3), -4);
-    assert.equal(calculateNumber(-1.2, -3.7), -5);
+  it('should correctly subtract two numbers', () => {
+    assert.equal(calculateNumber('subtract', 5.8, 2.1), 4);
   });
 
-  it('should round to nearest integer', () => {
-    assert.equal(calculateNumber(1.4, 3.4), 4);
-    assert.equal(calculateNumber(1.6, 3.6), 6);
+  it('should correctly divide two numbers', () => {
+    assert.equal(calculateNumber('divide', 8.4, 2.5), 3);
+  });
+
+  it('should return "Error" when dividing by zero', () => {
+    assert.equal(calculateNumber('divide', 5, 0), 'Error');
   });
 });
-
