@@ -1,0 +1,24 @@
+{
+  "name": "unittests_in_js",
+  "version": "1.0.0",
+  "description": "A project for learning the basics of unittests in Node.js.",
+  "author": "Bezaleel Olakunori <bezaleeloci@gmail.com>",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "lint": "./node_modules/.bin/eslint",
+    "lint-all": "./node_modules/.bin/eslint [0-9]*.js",
+    "lint-fix-all": "./node_modules/.bin/eslint --fix [0-9]*.js",
+    "test": "mocha api.test.js --exit"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "supertest": "^6.0.0",
+    "mocha": "^6.2.2",
+    "chai": "^4.2.0",
+    "eslint": "^6.4.0"
+  }
+}
+
