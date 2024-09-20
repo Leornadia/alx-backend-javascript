@@ -1,43 +1,42 @@
-const request = require('supertest');
-const { expect } = require('chai');
+const chai = require('chai');
+const chaiHttp = require('chai-http');
+const { expect } = chai;
 const app = require('./api');
 
-describe('Index page', () => {
-  it('correct status code?', (done) => {
-    request(app)
-      .get('/')
-      .expect(200, done);
+chai.use(chaiHttp);
+
+describe('API', () => {
+  describe('GET /', () => {
+    it('should return 200 OK', (done) => {
+      chai.request(app)
+        .get('/')
+        .end((err, res) => {
+          expect(res).to.have.status(200);
+          expect(res.text).to.equal('API available');
+          done();
+        });
+    });
   });
 
-  it('correct result?', (done) => {
-    request(app)
-      .get('/')
-      .end((err, res) => {
-        expect(res.text).to.equal('Welcome to the payment system');
-        done();
-      });
-  });
-});
+  describe('GET /cart/:id', () => {
+    it('should return 200 OK with valid cart ID', (done) => {
+      chai.request(app)
+        .get('/cart/12')
+        .end((err, res) => {
+          expect(res).to.have.status(200);
+          expect(res.text).to.equal('Payment methods for cart 12');
+          done();
+        });
+    });
 
-describe('Cart page', () => {
-  it('correct status code when :id is a number', (done) => {
-    request(app)
-      .get('/cart/12')
-      .expect(200, done);
-  });
-
-  it('correct result when :id is a number', (done) => {
-    request(app)
-      .get('/cart/12')
-      .end((err, res) => {
-        expect(res.text).to.equal('Payment methods for cart 12');
-        done();
-      });
-  });
-
-  it('correct status code when :id is NOT a number', (done) => {
-    request(app)
-      .get('/cart/hello')
-      .expect(404, done);
+    it('should return 404 Not Found with invalid cart ID', (done) => {
+      chai.request(app)
+        .get('/cart/hello')
+        .end((err, res) => {
+          expect(res).to.have.status(404);
+          expect(res.text).to.equal('Invalid cart ID');
+          done();
+        });
+    });
   });
 });
