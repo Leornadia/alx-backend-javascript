@@ -2,7 +2,7 @@
   "name": "0x06-unittests_in_js",
   "version": "1.0.0",
   "description": "Unittests in JS project",
-  "main": "index.js",
+  "main": "calcul.js",
   "scripts": {
     "test": "mocha *.test.js"
   },
@@ -13,6 +13,9 @@
     "chai": "^4.3.4",
     "mocha": "^8.4.0",
     "sinon": "^10.0.0"
-  }
+  },
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {}
 }
-

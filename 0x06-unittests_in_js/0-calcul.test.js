@@ -1,20 +1,36 @@
-const calculateNumber = require('./0-calcul'); 
 const assert = require('assert');
+const calculateNumber = require('./0-calcul');
 
-describe('calculateNumber', () => {
-  it('should correctly add two numbers', () => {
-    assert.equal(calculateNumber('add', 1.2, 2.4), 3);
-  });
+describe('calculateNumber', function() 
+{
+    it('should return 4 when inputs are 1 and 3', function() 
+    {
+        assert.strictEqual(calculateNumber(1, 3), 4);
+    });
 
-  it('should correctly subtract two numbers', () => {
-    assert.equal(calculateNumber('subtract', 5.8, 2.1), 4);
-  });
+    it('should return 5 when inputs are 1 and 3.7', function() 
+    {
+        assert.strictEqual(calculateNumber(1, 3.7), 5);
+    });
 
-  it('should correctly divide two numbers', () => {
-    assert.equal(calculateNumber('divide', 8.4, 2.5), 3);
-  });
+    it('should return 5 when inputs are 1.2 and 3.7', function() 
+    {
+        assert.strictEqual(calculateNumber(1.2, 3.7), 5);
+    });
 
-  it('should return "Error" when dividing by zero', () => {
-    assert.equal(calculateNumber('divide', 5, 0), 'Error');
-  });
+    it('should return 6 when inputs are 1.5 and 3.7', function() 
+    {
+        assert.strictEqual(calculateNumber(1.5, 3.7), 6);
+    });
+
+    it('should handle negative numbers', function() 
+    {
+        assert.strictEqual(calculateNumber(-1.4, -3.7), -5);
+    });
+
+    it('should handle one number being 0', function() 
+    {
+        assert.strictEqual(calculateNumber(0, 4.7), 5);
+    });
 });
+
