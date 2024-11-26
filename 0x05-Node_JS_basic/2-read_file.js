@@ -1,29 +1,47 @@
 const fs = require('fs');
-const csv = require('csv-parser');
 
-function countStudents(path) {
+const countStudents = (path) => {
+  let data;
+  
   try {
-    const students = [];
-    const fields = {};
-
-    fs.readFileSync(path, 'utf8')
-      .pipe(csv())
-      .on('data', (row) => {
-        if (row.firstname && row.lastname && row.age && row.field) {
-          students.push(row.firstname);
-          fields[row.field] = fields[row.field] || [];
-          fields[row.field].push(row.firstname);
-        }
-      })
-      .on('end', () => {
-        console.log(`Number of students: ${students.length}`);
-        for (const field in fields) {
-          console.log(`Number of students in ${field}: ${fields[field].length}. List: ${fields[field].join(', ')}`);
-        }
-      });
+    // Read file synchronously
+    data = fs.readFileSync(path, 'utf8');
   } catch (error) {
+    // Throw error if file cannot be read
     throw new Error('Cannot load the database');
   }
-}
 
-module.exports = countStudents; 
+  // Split data into lines and filter out empty lines
+  const lines = data.trim().split('\n').filter(line => line.trim() !== '');
+  
+  // Remove header row
+  const studentLines = lines.slice(1);
+  
+  // Validate students (ensure all fields are present)
+  const validStudents = studentLines.filter(line => {
+    const [firstname, lastname, age, field] = line.split(',');
+    return firstname && lastname && age && field;
+  });
+  
+  // Total number of students
+  console.log(`Number of students: ${validStudents.length}`);
+  
+  // Group students by field
+  const fieldGroups = {};
+  
+  validStudents.forEach(line => {
+    const [firstname, lastname, age, field] = line.split(',');
+    
+    if (!fieldGroups[field]) {
+      fieldGroups[field] = [];
+    }
+    fieldGroups[field].push(firstname);
+  });
+  
+  // Print students by field
+  for (const [field, students] of Object.entries(fieldGroups)) {
+    console.log(`Number of students in ${field}: ${students.length}. List: ${students.join(', ')}`);
+  }
+};
+
+module.exports = countStudents;
