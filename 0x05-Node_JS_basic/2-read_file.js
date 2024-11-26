@@ -1,41 +1,44 @@
 const fs = require('fs');
 
-const countStudents = (path) => {
-  let data;
-  
-  try {
-    // Read file synchronously
-    data = fs.readFileSync(path, 'utf8');
-  } catch (error) {
-    // Throw error if file cannot be read
-    throw new Error('Cannot load the database');
-  }
+function countStudents(path) 
+{
+    try 
+    {
+        const data = fs.readFileSync(path, 'utf-8'); // Read file synchronously
+        const lines = data.split('\n').filter((line) => line.trim() !== ''); // Filter out empty lines
 
-  // Split data into lines and filter out empty lines
-  const lines = data.trim().split('\n').filter(line => line.trim() !== '');
-  
-  // Remove header row
-  const studentLines = lines.slice(1);
-  
-  // Total number of students
-  console.log(`Number of students: ${studentLines.length}`);
-  
-  // Group students by field
-  const fieldGroups = {};
-  
-  studentLines.forEach(line => {
-    const [firstname, lastname, age, field] = line.split(',');
-    
-    if (!fieldGroups[field]) {
-      fieldGroups[field] = [];
+        if (lines.length === 0) 
+        {
+            throw new Error('Cannot load the database');
+        }
+
+        const students = lines.slice(1); // Remove the header line
+        const totalStudents = students.length;
+
+        console.log(`Number of students: ${totalStudents}`);
+
+        const fields = {};
+        for (const student of students) 
+        {
+            const [firstname, lastname, age, field] = student.split(',');
+
+            if (!fields[field]) 
+            {
+                fields[field] = [];
+            }
+            fields[field].push(firstname);
+        }
+
+        for (const [field, firstnames] of Object.entries(fields)) 
+        {
+            console.log(`Number of students in ${field}: ${firstnames.length}. List: ${firstnames.join(', ')}`);
+        }
+    } 
+    catch (err) 
+    {
+        throw new Error('Cannot load the database');
     }
-    fieldGroups[field].push(firstname);
-  });
-  
-  // Print students by field
-  for (const [field, students] of Object.entries(fieldGroups)) {
-    console.log(`Number of students in ${field}: ${students.length}. List: ${students.join(', ')}`);
-  }
-};
+}
 
 module.exports = countStudents;
+
