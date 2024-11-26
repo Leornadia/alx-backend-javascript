@@ -1,47 +1,44 @@
 const fs = require('fs');
 
-const countStudents = (path) => {
-  let data;
-  
-  try {
-    // Read file synchronously
-    data = fs.readFileSync(path, 'utf8');
-  } catch (error) {
-    // Throw error if file cannot be read
-    throw new Error('Cannot load the database');
-  }
+function countStudents(path) {
+    try {
+        // Read the file synchronously
+        const data = fs.readFileSync(path, 'utf8');
 
-  // Split data into lines and filter out empty lines
-  const lines = data.trim().split('\n').filter(line => line.trim() !== '');
-  
-  // Remove header row
-  const studentLines = lines.slice(1);
-  
-  // Validate students (ensure all fields are present)
-  const validStudents = studentLines.filter(line => {
-    const [firstname, lastname, age, field] = line.split(',');
-    return firstname && lastname && age && field;
-  });
-  
-  // Total number of students
-  console.log(`Number of students: ${validStudents.length}`);
-  
-  // Group students by field
-  const fieldGroups = {};
-  
-  validStudents.forEach(line => {
-    const [firstname, lastname, age, field] = line.split(',');
-    
-    if (!fieldGroups[field]) {
-      fieldGroups[field] = [];
+        // Split the data into lines
+        const lines = data.split('\n').filter(line => line.trim() !== '');
+
+        // Remove the header line
+        const students = lines.slice(1);
+
+        // Initialize counters and lists
+        const fieldCounts = {};
+        const fieldLists = {};
+
+        // Process each student line
+        students.forEach(student => {
+            const [firstName, lastName, age, field] = student.split(',');
+
+            if (!fieldCounts[field]) {
+                fieldCounts[field] = 0;
+                fieldLists[field] = [];
+            }
+
+            fieldCounts[field]++;
+            fieldLists[field].push(firstName);
+        });
+
+        // Log the total number of students
+        console.log(`Number of students: ${students.length}`);
+
+        // Log the number of students in each field and their list of first names
+        for (const field in fieldCounts) {
+            console.log(`Number of students in ${field}: ${fieldCounts[field]}. List: ${fieldLists[field].join(', ')}`);
+        }
+    } catch (error) {
+        // Throw an error if the database is not available
+        throw new Error('Cannot load the database');
     }
-    fieldGroups[field].push(firstname);
-  });
-  
-  // Print students by field
-  for (const [field, students] of Object.entries(fieldGroups)) {
-    console.log(`Number of students in ${field}: ${students.length}. List: ${students.join(', ')}`);
-  }
-};
+}
 
 module.exports = countStudents;
